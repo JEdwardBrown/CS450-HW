@@ -35,5 +35,5 @@ void main() {
 
 	vec3 diffColor = diffuse * vec3(light.color * vertexColor);
 
-	vec4 outColor = vec4(diffColor, 1.0);
+	out_color = vec4(diffColor, 1.0);
 }

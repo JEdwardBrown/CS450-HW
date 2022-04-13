@@ -758,6 +758,9 @@ int main(int argc, char **argv) {
 
 	//Get normal matrix location
 	GLint normMatLoc = glGetUniformLocation(programID, "normMat");
+
+	cout << modelMatLoc << endl;
+	cout << lightPosLoc << " " << lightColorLoc << " " << normMatLoc << endl;
 	
 	// Create simple quad
 	Mesh m;
