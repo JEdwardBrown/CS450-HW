@@ -28,6 +28,12 @@ glm::vec3 lookAt = glm::vec3(0, 0, 0);
 //Global Variable for Mouse Position:
 glm::vec2 mousePos;
 
+//Global Variable for metallic
+float metallic = 0.0;
+
+//Global Variable for roughness
+float roughness = 0.1;
+
 // Struct for holding vertex data
 struct Vertex {
 	glm::vec3 position;
@@ -486,6 +492,22 @@ static void keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 			lookAt -= moveAxis;
 			eye -= moveAxis;
 		}
+		else if (key == GLFW_KEY_V) {
+			if(metallic > 0.0)
+				metallic -= 0.1;
+		}
+		else if (key == GLFW_KEY_B) {
+			if(metallic < 1.0)
+				metallic += 0.1;
+		}
+		else if (key == GLFW_KEY_N) {
+			if(roughness > 0.1)
+				roughness -= 0.1;
+		}
+		else if (key == GLFW_KEY_M) {
+			if(roughness < 0.7)
+				roughness += 0.1;
+		}
 		else if (key == GLFW_KEY_1) {
 			light.color = glm::vec4(1, 1, 1, 1); //white
 		}
@@ -758,6 +780,10 @@ int main(int argc, char **argv) {
 
 	//Get normal matrix location
 	GLint normMatLoc = glGetUniformLocation(programID, "normMat");
+	
+	//Get Metallic and Roughness Uniform Location
+	GLint metalLoc = glGetUniformLocation(programID, "metallic");
+	GLint roughLoc = glGetUniformLocation(programID, "roughness");
 
 	cout << modelMatLoc << endl;
 	cout << lightPosLoc << " " << lightColorLoc << " " << normMatLoc << endl;
@@ -797,6 +823,10 @@ int main(int argc, char **argv) {
 		//Pass View matrix to shader
 		glm::mat4 viewMat = glm::lookAt(eye, lookAt, glm::vec3(0,1,0));
 		glUniformMatrix4fv(viewMatLoc, 1, false, glm::value_ptr(viewMat));
+
+		//Pass in current Metallic and Roughness Values
+		glUniform1f(metalLoc, metallic);
+		glUniform1f(roughLoc, roughness);		
 
 		//Get Framebuffer size
 		int fBuffW, fBuffH;
